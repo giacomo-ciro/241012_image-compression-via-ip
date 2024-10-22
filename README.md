@@ -12,31 +12,17 @@ The optimal centroid for a given cluster of points according to the sqaured L2-n
 
 Notice that multiple occurences of the same point must be assigned to the same centroid. Nonetheless, these multiple occurences are important as they skew the mean of the cluster they belong to and magnifiy the overall loss. Aware of this, we can simplify this problem by considering only unique points and use their relative frequency as a weight when computing tentative centroids and their absolute frequency as weight when computing the objective function. Formally, we model the problem as follows:  
 
-Given a set of $P$ points, denote with $i = 1, ..., N$ the unique points with coordinates $p_i \in \mathbb{R}^n$, clearly $N \le P$. Denote with $j=1, ..., 2^N-1$ the possible centroids with coordinates $c_j$, obtained as follows:
-$$
-c_j = \frac{1}{\sum_{i \in S_j}w_i}\sum_{i \in S_j} p_i\cdot w_i
-$$
-where $S_j$ are all possible subsets of unique points and $w_i$ their frequency in the original set. We also define the total cost of cluster $S_j$ as:  
-$$
-d_{j} = \sum_{p_i \in S_j}w_i||c_j - p_i||^2 
-$$
-and define the cluster matrix X as:  
-$$
-X_{ij} = \mathbb{1}_{S_j} 
-$$
-Where ${1}_{S_j}$ is the indicator function. We also define a binary variable $y_j \in \{0,1\}$ indicating whether or not we choose centroid $j$ and the corresponding cluster $S_j$.
+Given a set of $P$ points, denote with $i = 1, ..., N$ the unique points with coordinates $p_i \in \mathbb{R}^n$, clearly $N \le P$.  
+
+Denote with $j=1, ..., 2^N-1$ the possible centroids with coordinates $c_j = \frac{1}{\sum_{i \in S_j}w_i}\sum_{i \in S_j} p_i\cdot w_i$ where $S_j$ are all possible subsets of unique points and $w_i$ their frequency in the original set.  
+
+We also define the total cost of cluster $S_j$ as $d_{j} = \sum_{p_i \in S_j}w_i||c_j - p_i||^2$ and define the cluster matrix X as $X_{ij} = \mathbb{1}_{S_j}$ where ${1}_{S_j}$ is the indicator function.  
+
+We define a binary variable $y_j \in \{0,1\}$ indicating whether or not we choose centroid $j$ and the corresponding cluster $S_j$.
   
-We now model K-means as follows:
-$$
-\min_{y_j} \sum_{j=1}^{2^N-1}y_{j}d_{j}\\
-s.t.
-\sum_{j=1}^{s^N-1} y_jX_{ij} = 1 \hspace{3mm}\forall i=1, ..., N \\
-\sum_{j=1}^{s^N-1} y_j = k \\
-$$
+We now model K-means as $\min_{y_j} \sum_{j=1}^{2^N-1}y_{j}d_{j}$ subject to  $\sum_{j=1}^{s^N-1} y_jX_{ij} = 1 \hspace{3mm}\forall i=1, ..., N$ and $\sum_{j=1}^{s^N-1} y_j = k$. The constraints force to assign each point to exactly $1$ centroid and to choose at most $k$ centroids.  
 
-The constraints force to assign each point to exactly $1$ centroid and to choose at most $k$ centroids.  
-
-To optimize running time, we can perform the following semplification and avoid considering all the $2^N - 1$ possible clusters:
+To optimize running time, we can perform the following simplification and avoid considering all the $2^N - 1$ possible clusters:
 
 - discard all clusters such that the squared distance with respect to the generated centroid is greater than the objective function value found with K-means
 - discard all clusters with more than $N-k+2$ elements. In fact, choosing one such cluster would lead to $k-2$ points left, but only $k-1$ clusters to be generated. It's now optimal to cluster $k-2$ points on their own. This leaves one free cluster yet to be assigned. It's always optimal to remove one point from the first cluster and assign it to this last one.
