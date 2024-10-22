@@ -1,0 +1,50 @@
+GLPSOL--GLPK LP/MIP Solver 5.0
+Parameter(s) specified in the command line:
+ --model main.mod --data main.dat
+Reading model section from main.mod...
+main.mod:20: warning: final NL missing before end of file
+20 lines were read
+Reading data section from main.dat...
+main.dat:8242: warning: unexpected end of file; missing end statement inserted
+8242 lines were read
+Generating obj...
+Generating c1...
+Generating c2...
+Model has been successfully generated
+GLPK Integer Optimizer 5.0
+22 rows, 8212 columns, 54655 non-zeros
+8212 integer variables, all of which are binary
+Preprocessing...
+21 rows, 8212 columns, 46463 non-zeros
+8212 integer variables, all of which are binary
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+Problem data seem to be well scaled
+Constructing initial basis...
+Size of triangular part is 20
+Solving LP relaxation...
+GLPK Simplex Optimizer 5.0
+21 rows, 8212 columns, 46463 non-zeros
+      0: obj =   0.000000000e+00 inf =   1.200e+01 (1)
+     13: obj =   5.909497359e+08 inf =   0.000e+00 (0)
+*    66: obj =   2.553375009e+08 inf =   5.927e-15 (0)
+OPTIMAL LP SOLUTION FOUND
+Integer optimization begins...
+Long-step dual simplex will be used
++    66: mip =     not found yet >=              -inf        (1; 0)
++    66: >>>>>   2.553375009e+08 >=   2.553375009e+08   0.0% (1; 0)
++    66: mip =   2.553375009e+08 >=     tree is empty   0.0% (0; 1)
+INTEGER OPTIMAL SOLUTION FOUND
+Time used:   0.0 secs
+Memory used: 41.0 Mb (43021913 bytes)
+Display statement at line 18
+obj.val = 255337500.869213
+   1
+   4
+   110
+   438
+   2171
+   2663
+   5067
+   8118
+Model has been successfully processed
